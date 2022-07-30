@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  keycloak:
+    container_name: ${NAME}-keycloak
+    image: quay.io/keycloak/keycloak:19.0.0
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./realm-export.json:/tmp/realm-export.json:ro
+      - ../target/${POM_ARTIFACT_ID}-jar-with-dependencies.jar:/opt/keycloak/providers/${POM_ARTIFACT_ID}.jar:ro
+    entrypoint:
+      - sh
+      - -c
+      - |
+        /opt/keycloak/bin/kc.sh build
+        IMPORT_FLAG_FILE=/opt/keycloak/imported.flag
+        if [ "$${KEYCLOAK_IMPORT}" != "" ]; then
+          if [ ! -f "$$IMPORT_FLAG_FILE" ]; then
+            /opt/keycloak/bin/kc.sh import --file "$$KEYCLOAK_IMPORT"
+            touch "$$IMPORT_FLAG_FILE"
+          fi
+        fi
+        /opt/keycloak/bin/kc.sh start-dev
+    environment:
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+      # KC_DB_URL: jdbc:postgresql://postgres:5432/postgres?ssl=allow
+      # KC_DB_USERNAME: postgres
+      # KC_DB_PASSWORD: postgres
+      # KC_DB: postgres
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: P@ssw0rd
+#   postgres:
+#     image: postgres:12
+#     container_name: ${NAME}-postgres
+#     restart: always
+#     ports:
+#       - 5432:5432
+#     environment:
+#       POSTGRES_DATABASE: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_USER: postgres
+#     volumes:
+#       - postgres:/var/lib/postgresql/data
+
+# volumes:
+#   postgres:
+#     name: postgres-${NAME}

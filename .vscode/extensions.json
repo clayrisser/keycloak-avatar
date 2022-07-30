@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "mikestead.dotenv",
+    "psioniq.psi-header",
+    "rubymaniac.vscode-direnv",
+    "streetsidesoftware.code-spell-checker",
+    "vscjava.vscode-spring-initializr",
+    "wmanth.jar-viewer"
+  ]
+}
