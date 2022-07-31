@@ -4,7 +4,7 @@
  * File Created: 30-07-2022 12:02:44
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 07:06:42
+ * Last Modified: 31-07-2022 09:13:02
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -63,7 +63,7 @@ public class AvatarResource extends AbstractAvatarResource {
     }
     String realmName = auth.getSession().getRealm().getName();
     String userId = auth.getUser().getId();
-    return Response.ok(fetchUserImage(realmName, userId)).build();
+    return Response.ok(downloadAvatarImage(realmName, userId), "image/png").build();
   }
 
   @POST
@@ -73,22 +73,22 @@ public class AvatarResource extends AbstractAvatarResource {
     if (auth == null) {
       return unauthorized();
     }
-    if (!isValidStateChecker(input)) {
-      return badRequest();
-    }
+    // if (!isValidStateChecker(input)) {
+    // return badRequest();
+    // }
     try {
       InputStream imageInputStream = input.getFormDataPart(AVATAR_IMAGE_PARAMETER, InputStream.class, null);
       String realmName = auth.getSession().getRealm().getName();
       String userId = auth.getUser().getId();
-      // TODO: get stream size
-      saveUserImage(realmName, userId, imageInputStream, -1);
+      uploadAvatarImage(realmName, userId, imageInputStream);
       if (uriInfo.getQueryParameters().containsKey("account")) {
         return Response
             .seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realmName))
             .build();
       }
-      return Response.ok().build();
+      return Response.ok("", MediaType.TEXT_PLAIN).build();
     } catch (Exception ex) {
+      logger.error(ex);
       return Response.serverError().build();
     }
   }

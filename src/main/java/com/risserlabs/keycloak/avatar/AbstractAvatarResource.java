@@ -5,7 +5,7 @@
  * File Created: 30-07-2022 12:03:15
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 06:59:27
+ * Last Modified: 31-07-2022 09:12:59
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -43,20 +43,22 @@ public abstract class AbstractAvatarResource {
     return badRequest("bad request");
   }
 
-  protected Response badRequest(String body) {
-    return Response.ok(body, MediaType.TEXT_PLAIN).status(Response.Status.BAD_REQUEST).build();
+  protected Response badRequest(String errorMessage) {
+    return Response.ok("{\"error\":\"" + errorMessage + "\"}", MediaType.TEXT_PLAIN).status(Response.Status.BAD_REQUEST)
+        .build();
   }
 
   protected Response unauthorized() {
-    return Response.ok("unauthorized", MediaType.TEXT_PLAIN).status(Response.Status.UNAUTHORIZED).build();
+    return Response.ok("{\"error\":\"unauthorized\"}", MediaType.TEXT_PLAIN).status(Response.Status.UNAUTHORIZED)
+        .build();
   }
 
-  protected void saveUserImage(String realmName, String userId, InputStream imageInputStream, long imageInputSize) {
-    getAvatarStorageProvider().saveAvatarImage(realmName, userId, imageInputStream, imageInputSize);
+  protected void uploadAvatarImage(String realmName, String userId, InputStream imageInputStream) {
+    getAvatarStorageProvider().uploadAvatarImage(realmName, userId, imageInputStream);
   }
 
-  protected StreamingOutput fetchUserImage(String realmId, String userId) {
-    return output -> copyStream(getAvatarStorageProvider().loadAvatarImage(realmId, userId), output);
+  protected StreamingOutput downloadAvatarImage(String realmId, String userId) {
+    return output -> copyStream(getAvatarStorageProvider().downloadAvatarImage(realmId, userId), output);
   }
 
   private void copyStream(InputStream in, OutputStream out) throws IOException {

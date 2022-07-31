@@ -5,7 +5,7 @@
  * File Created: 31-07-2022 05:17:14
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 07:19:19
+ * Last Modified: 31-07-2022 09:16:45
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -55,7 +55,7 @@ public class S3Template {
   }
 
   public String getBucketName() {
-    return this.s3Config.bucketName;
+    return this.s3Config.bucket;
   }
 
   public String getObjectName(String objectName) {

@@ -5,7 +5,7 @@
  * File Created: 31-07-2022 04:53:06
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 06:21:20
+ * Last Modified: 31-07-2022 09:10:10
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -17,7 +17,7 @@ import org.keycloak.provider.Provider;
 import java.io.InputStream;
 
 public interface AvatarStorageProvider extends Provider {
-  void saveAvatarImage(String realmName, String userId, InputStream input, long inputSize);
+  void uploadAvatarImage(String realmName, String userId, InputStream input);
 
-  InputStream loadAvatarImage(String realmId, String userId);
+  InputStream downloadAvatarImage(String realmId, String userId);
 }
