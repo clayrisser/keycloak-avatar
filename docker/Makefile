@@ -1,9 +1,9 @@
 # File: /docker/Makefile
-# Project: keycloak-account-avatar
+# Project: @risserlabs/keycloak-account-avatar-client
 # File Created: 28-01-2022 12:45:21
 # Author: Clay Risser
 # -----
-# Last Modified: 30-07-2022 11:32:45
+# Last Modified: 31-07-2022 15:09:01
 # Modified By: Clay Risser
 # -----
 # RisserLabs LLC (c) Copyright 2022

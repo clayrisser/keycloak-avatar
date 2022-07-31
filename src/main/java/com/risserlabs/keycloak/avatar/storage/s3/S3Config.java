@@ -1,10 +1,10 @@
 /**
  * File: /src/main/java/com/risserlabs/keycloak/avatar/storage/s3/S3Config.java
- * Project: keycloak-account-avatar
+ * Project: @risserlabs/keycloak-account-avatar-client
  * File Created: 31-07-2022 05:09:58
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 07:36:02
+ * Last Modified: 31-07-2022 15:08:23
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022

@@ -1,43 +1,33 @@
 # File: /Makefile
-# Project: keycloak-account-avatar
-# File Created: 28-01-2022 12:35:10
+# Project: @risserlabs/keycloak-account-avatar-client
+# File Created: 31-07-2022 14:43:01
 # Author: Clay Risser
 # -----
-# Last Modified: 30-07-2022 11:47:55
+# Last Modified: 31-07-2022 15:09:01
 # Modified By: Clay Risser
 # -----
-# RisserLabs LLC (c) Copyright 2022
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Risser Labs LLC (c) Copyright 2022
 
 include mkpm.mk
 ifneq (,$(MKPM_READY))
 include $(MKPM)/gnu
 include $(MKPM)/mkchain
+include $(MKPM)/yarn
 include $(MKPM)/envcache
 include $(MKPM)/dotenv
 
-export MVN ?= mvn
+export NPM_AUTH_TOKEN ?=
+
 export BABEL ?= $(call yarn_binary,babel)
 export BABEL_NODE ?= $(call yarn_binary,babel-node)
 export CLOC ?= cloc
 export CSPELL ?= $(call yarn_binary,cspell)
 export ESLINT ?= $(call yarn_binary,eslint)
 export JEST ?= $(call yarn_binary,jest)
-export NODEMON ?= $(call yarn_binary,nodemon)
+export MVN ?= mvn
+export PARCEL ?= $(call yarn_binary,parcel)
 export PRETTIER ?= $(call yarn_binary,prettier)
 export TSC ?= $(call yarn_binary,tsc)
-export WEBPACK ?= $(call yarn_binary,webpack)
 
 export POM_ARTIFACT_ID ?= $(shell $(CAT) pom.xml | \
 	$(GREP) "<artifactId>" | \
@@ -51,37 +41,102 @@ export POM_VERSION ?= $(shell $(CAT) pom.xml | \
 	$(SED) 's|</version>||g')
 
 ACTIONS += install
-$(ACTION)/install:
+$(ACTION)/install: package.json
+	@$(YARN) install $(ARGS)
 	@$(MVN) clean install
 	@$(call done,install)
 
-.PHONY: build
-build: install
+ACTIONS += format~install ##
+$(ACTION)/format: $(call git_deps,\.((json)|(md)|([jt]sx?))$$)
+	-@$(call prettier,$?,$(ARGS))
+	@$(call done,format)
+
+ACTIONS += spellcheck~format ##
+$(ACTION)/spellcheck: $(call git_deps,\.(md)$$)
+	-@$(call cspell,$?,$(ARGS))
+	@$(call done,spellcheck)
+
+ACTIONS += lint~spellcheck ##
+$(ACTION)/lint: $(call git_deps,\.([jt]sx?)$$)
+	-@$(call eslint,$?,$(ARGS))
+	@$(call done,lint)
+
+ACTIONS += test~lint ##
+$(ACTION)/test: $(call git_deps,\.([jt]sx?)$$)
+	-@$(MKDIR) -p node_modules/.tmp
+	-@$(call jest,$?,$(ARGS))
+	@$(call done,test)
+
+.PHONY: mvn/bulid
+mvn/bulid:
 	@$(MVN) clean package
 	@$(MKDIR) -p docker/volumes/providers
 
-.PHONY: clean
-clean: ##
-	-@$(GIT) clean -fXd \
-		$(MKPM_GIT_CLEAN_FLAGS) \
-		$(NOFAIL)
+ACTIONS += build~test ##
+BUILD_TARGET := lib/index.js
+lib/index.js:
+	@$(call reset,build)
+$(ACTION)/build: $(call git_deps,\.([jt]sx?)$$)
+	@$(MAKE) -s mvn/bulid
+	@$(BABEL) --env-name umd client -d lib --extensions '.js,.jsx,.ts,.tsx' --source-maps
+	@$(BABEL) --env-name esm client -d es --extensions '.js,.jsx,.ts,.tsx' --source-maps
+	@$(TSC) -p tsconfig.build.json -d
+	@$(call done,build)
 
-.PHONY: purge
-purge: clean ##
-	@$(GIT) clean -fXd
+.PHONY: start +start
+start: | ~install +start ##
++start:
+#	@$(NODEMON) --exec $(BABEL_NODE) --extensions .ts client/index.ts $(ARGS)
 
-.PHONY: start
-start:
-	@$(MAKE) -s build
-	@$(MAKE) -s docker/down
-	@$(MAKE) -s docker/up
+COLLECT_COVERAGE_FROM := ["client/**/*.{js,jsx,ts,tsx}"]
+.PHONY: coverage +coverage
+coverage: | ~lint +coverage
++coverage:
+	@$(JEST) --coverage --collectCoverageFrom='$(COLLECT_COVERAGE_FROM)' $(ARGS)
 
 .PHONY: docker/%
 docker/%:
 	@$(MAKE) -sC docker $(subst docker/,,$@) ARGS=$(ARGS)
 
--include $(call actions,$(ACTIONS))
+.PHONY: prepare
+prepare: ;
+
+.PHONY: upgrade
+upgrade:
+	@$(YARN) upgrade-interactive
+
+.PHONY: inc
+inc:
+	@$(NPM) version patch --git=false $(NOFAIL)
+
+.PHONY: count
+count:
+	@$(CLOC) $(shell $(GIT) ls-files)
+
+.PHONY: example +example
+example: | ~test +example ## open the example
++example:
+	@$(PARCEL) example/index.html
+
+.PHONY: clean
+clean: ##
+	-@$(MKCACHE_CLEAN)
+	-@$(JEST) --clearCache $(NOFAIL)
+	-@$(GIT) clean -fXd \
+		$(MKPM_GIT_CLEAN_FLAGS) \
+		$(YARN_GIT_CLEAN_FLAGS) \
+		$(NOFAIL)
 
 CACHE_ENVS += \
+	BABEL \
+	BABEL_NODE \
+	CLOC \
+	CSPELL \
+	ESLINT \
+	JEST \
+	PRETTIER \
+	TSC
+
+-include $(call actions)
 
 endif

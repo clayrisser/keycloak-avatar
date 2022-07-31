@@ -1,3 +1,118 @@
 {
-  "name": "keycloak-account-avatar"
+  "name": "@risserlabs/keycloak-account-avatar-client",
+  "description": "client to interact with keycloak account avatar",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "author": "Risser Labs LLC <risserlabs@gmail.com>",
+  "contributors": [
+    "Clay Risser <clayrisser@gmail.com>"
+  ],
+  "sideEffects": false,
+  "keywords": [
+    "keycloak",
+    "avatar"
+  ],
+  "homepage": "https://gitlab.com/risserlabs/community/keycloak-account-avatar",
+  "license": "Apache-2.0",
+  "files": [
+    "es",
+    "lib"
+  ],
+  "module": "es/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/risserlabs/community/keycloak-account-avatar"
+  },
+  "scripts": {
+    "build": "make -s build",
+    "clean": "make -s clean",
+    "coverage": "make -s coverage",
+    "format": "make -s format",
+    "lint": "make -s lint",
+    "prepare": "make -s prepare",
+    "purge": "make -s purge",
+    "spellcheck": "make -s spellcheck",
+    "start": "make -s start",
+    "test": "make -s test"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.9",
+    "@babel/core": "^7.18.9",
+    "@babel/node": "^7.18.9",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.18.9",
+    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
+    "@babel/plugin-transform-runtime": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@babel/runtime": "^7.18.9",
+    "@emotion/react": "^11.10.0",
+    "@mdx-js/react": "^2.1.2",
+    "@theme-ui/presets": "^0.14.7",
+    "@types/jest": "^28.1.6",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "babel-loader": "^8.2.5",
+    "babel-plugin-inline-import": "^3.0.0",
+    "babel-plugin-macros": "^3.1.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "core-js": "^3.24.1",
+    "cspell": "^6.5.0",
+    "eslint": "^8.20.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-spellcheck": "^0.0.19",
+    "jest": "^28.1.3",
+    "jest-sonar-reporter": "^2.0.0",
+    "lockfile-lint": "^4.7.7",
+    "parcel": "^2.6.2",
+    "prettier": "^2.7.1",
+    "process": "^0.11.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "theme-ui": "^0.14.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "packageManager": "yarn@3.2.0",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "eslintIgnore": [
+    "es",
+    "lib"
+  ],
+  "jest": {
+    "testRegex": "((/(tests|__tests__)((/|/[^_.\n][^/\n]*(/[^_.\n][^/\n]+)*/)[^_.\n][^/\n]*))|((/|/.*/)(([^_.\n][^/\n]*.(spec|test))|(spec|test)))).[jt]sx?$",
+    "testEnvironment": "node",
+    "verbose": true,
+    "testPathIgnorePatterns": [
+      "<rootDir>/lib/",
+      "<rootDir>/es/"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/_setup.ts"
+    ]
+  },
+  "jestSonar": {
+    "reportPath": ".mkpm/.tmp/reports",
+    "reportFile": "test-report.xml",
+    "indent": 4
+  },
+  "publishConfig": {
+    "@risserlabs:registry": "https://gitlab.com/api/v4/projects/38220011/packages/npm/",
+    "registry": "https://gitlab.com/api/v4/projects/38220011/packages/npm/"
+  },
+  "dependencies": {
+    "keycloak-js": "^19.0.1"
+  }
 }

@@ -1,14 +1,15 @@
 # File: /mkpm.mk
-# Project: keycloak-account-avatar
+# Project: @risserlabs/keycloak-account-avatar-client
 # File Created: 30-07-2022 11:23:18
 # Author: Clay Risser
 # -----
-# Last Modified: 30-07-2022 11:32:45
+# Last Modified: 31-07-2022 15:09:01
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2022
 
 export MKPM_PACKAGES_DEFAULT := \
+	yarn=0.0.5 \
 	docker=0.0.9 \
 	dotenv=0.0.9 \
 	envcache=0.1.0 \
