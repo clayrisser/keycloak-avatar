@@ -4,7 +4,7 @@
  * File Created: 31-07-2022 14:36:36
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 15:08:23
+ * Last Modified: 31-07-2022 15:17:14
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -128,11 +128,11 @@ module.exports = {
           "**/*.test.jsx",
           "**/*.test.ts",
           "**/*.test.tsx",
+          "example/**/*",
           "tests/**/*.js",
           "tests/**/*.jsx",
           "tests/**/*.ts",
           "tests/**/*.tsx",
-          "example/**/*",
         ],
       },
     ],

@@ -21,8 +21,10 @@
     "redeclare",
     "risser",
     "risserlabs",
+    "sso",
     "tsconfig",
     "tsx",
+    "uri",
     "vscode",
     "yarnpkg",
     "yoda"

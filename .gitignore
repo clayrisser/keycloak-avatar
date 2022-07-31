@@ -5,6 +5,7 @@
 /.dockerignore
 /docker/volumes
 /es
+/debug.json
 /lib
 target/
 
