@@ -5,7 +5,7 @@
  * File Created: 30-07-2022 12:03:15
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 09:12:59
+ * Last Modified: 31-07-2022 14:33:53
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -17,6 +17,7 @@ import com.risserlabs.keycloak.avatar.storage.AvatarStorageProvider;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.json.Json;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
@@ -40,16 +41,27 @@ public abstract class AbstractAvatarResource {
   }
 
   protected Response badRequest() {
-    return badRequest("bad request");
+    return badRequest("");
   }
 
   protected Response badRequest(String errorMessage) {
-    return Response.ok("{\"error\":\"" + errorMessage + "\"}", MediaType.TEXT_PLAIN).status(Response.Status.BAD_REQUEST)
+    String body = "";
+    String mediaType = MediaType.TEXT_PLAIN;
+    if (errorMessage != null && errorMessage.length() > 0) {
+      body = Json.createObjectBuilder()
+          .add("error", errorMessage).build().toString();
+      mediaType = MediaType.APPLICATION_JSON;
+    }
+    return Response
+        .ok(body, mediaType)
+        .status(Response.Status.BAD_REQUEST)
         .build();
   }
 
   protected Response unauthorized() {
-    return Response.ok("{\"error\":\"unauthorized\"}", MediaType.TEXT_PLAIN).status(Response.Status.UNAUTHORIZED)
+    return Response
+        .ok("", MediaType.TEXT_PLAIN)
+        .status(Response.Status.UNAUTHORIZED)
         .build();
   }
 
@@ -58,7 +70,9 @@ public abstract class AbstractAvatarResource {
   }
 
   protected StreamingOutput downloadAvatarImage(String realmId, String userId) {
-    return output -> copyStream(getAvatarStorageProvider().downloadAvatarImage(realmId, userId), output);
+    return (output) -> copyStream(
+        getAvatarStorageProvider().downloadAvatarImage(realmId, userId),
+        output);
   }
 
   private void copyStream(InputStream in, OutputStream out) throws IOException {

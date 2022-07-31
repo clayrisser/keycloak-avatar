@@ -4,7 +4,7 @@
  * File Created: 30-07-2022 12:02:44
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 09:13:02
+ * Last Modified: 31-07-2022 14:23:53
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -13,14 +13,18 @@
 package com.risserlabs.keycloak.avatar;
 
 import java.io.InputStream;
-import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.cache.NoCache;
@@ -55,7 +59,6 @@ public class AvatarResource extends AbstractAvatarResource {
   }
 
   @GET
-  @NoCache
   @Produces({ "image/png", "image/jpeg", "image/gif" })
   public Response getCurrentUserAvatarImage() {
     if (auth == null) {
@@ -63,7 +66,17 @@ public class AvatarResource extends AbstractAvatarResource {
     }
     String realmName = auth.getSession().getRealm().getName();
     String userId = auth.getUser().getId();
-    return Response.ok(downloadAvatarImage(realmName, userId), "image/png").build();
+    StreamingOutput imageStream = downloadAvatarImage(realmName, userId);
+    return Response.ok(imageStream, "image/png").build();
+  }
+
+  @GET
+  @Path("{userId}")
+  @Produces({ "image/png", "image/jpeg", "image/gif" })
+  public Response getUserAvatarImage(@PathParam("userId") String userId, @Context UriInfo uriInfo) {
+    String realmName = getRealm(uriInfo);
+    StreamingOutput imageStream = downloadAvatarImage(realmName, userId);
+    return Response.ok(imageStream, "image/png").build();
   }
 
   @POST
@@ -73,9 +86,6 @@ public class AvatarResource extends AbstractAvatarResource {
     if (auth == null) {
       return unauthorized();
     }
-    // if (!isValidStateChecker(input)) {
-    // return badRequest();
-    // }
     try {
       InputStream imageInputStream = input.getFormDataPart(AVATAR_IMAGE_PARAMETER, InputStream.class, null);
       String realmName = auth.getSession().getRealm().getName();
@@ -93,13 +103,16 @@ public class AvatarResource extends AbstractAvatarResource {
     }
   }
 
-  private boolean isValidStateChecker(MultipartFormDataInput input) {
-    try {
-      String actualStateChecker = input.getFormDataPart(STATE_CHECKER_PARAMETER, String.class, null);
-      String requiredStateChecker = (String) session.getAttribute(STATE_CHECKER_ATTRIBUTE);
-      return Objects.equals(requiredStateChecker, actualStateChecker);
-    } catch (Exception ex) {
-      return false;
+  private String getRealm(UriInfo uriInfo) {
+    if (auth != null) {
+      return auth.getSession().getRealm().getName();
     }
+    String realm = "master";
+    Pattern pattern = Pattern.compile("/realms/[^/]+", Pattern.CASE_INSENSITIVE);
+    Matcher matcher = pattern.matcher(uriInfo.getPath());
+    if (matcher.find()) {
+      realm = matcher.group(0).substring(8);
+    }
+    return realm;
   }
 }
