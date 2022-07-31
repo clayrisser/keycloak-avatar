@@ -117,5 +117,10 @@
       <artifactId>utils</artifactId>
       <version>3.6.0</version>
     </dependency>
+    <dependency>
+      <groupId>io.minio</groupId>
+      <artifactId>minio</artifactId>
+      <version>8.4.3</version>
+    </dependency>
   </dependencies>
 </project>
