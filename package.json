@@ -35,30 +35,35 @@
     "start": "make -s start",
     "test": "make -s test"
   },
+  "dependencies": {
+    "@babel/runtime": "^7.18.9",
+    "core-js": "^3.24.1"
+  },
   "peerDependencies": {
     "react": "^17.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.9",
-    "@babel/core": "^7.18.9",
-    "@babel/node": "^7.18.9",
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/node": "^7.18.10",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-decorators": "^7.18.9",
+    "@babel/plugin-proposal-decorators": "^7.18.10",
     "@babel/plugin-proposal-optional-chaining": "^7.18.9",
     "@babel/plugin-proposal-private-methods": "^7.18.6",
-    "@babel/plugin-transform-runtime": "^7.18.9",
-    "@babel/preset-env": "^7.18.9",
+    "@babel/plugin-transform-runtime": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/runtime": "^7.18.9",
     "@emotion/react": "^11.10.0",
     "@mdx-js/react": "^2.1.2",
+    "@react-keycloak/web": "^3.4.0",
     "@theme-ui/presets": "^0.14.7",
     "@types/jest": "^28.1.6",
     "@types/react": "^18.0.15",
-    "@types/react-dom": "^18",
-    "@typescript-eslint/eslint-plugin": "^5.31.0",
-    "@typescript-eslint/parser": "^5.31.0",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
     "babel-loader": "^8.2.5",
     "babel-plugin-inline-import": "^3.0.0",
     "babel-plugin-macros": "^3.1.0",
@@ -66,13 +71,14 @@
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "core-js": "^3.24.1",
     "cspell": "^6.5.0",
-    "eslint": "^8.20.0",
+    "eslint": "^8.21.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-spellcheck": "^0.0.19",
     "jest": "^28.1.3",
     "jest-sonar-reporter": "^2.0.0",
+    "keycloak-js": "^19.0.1",
     "lockfile-lint": "^4.7.7",
     "parcel": "^2.6.2",
     "prettier": "^2.7.1",
@@ -111,8 +117,5 @@
   "publishConfig": {
     "@risserlabs:registry": "https://gitlab.com/api/v4/projects/38220011/packages/npm/",
     "registry": "https://gitlab.com/api/v4/projects/38220011/packages/npm/"
-  },
-  "dependencies": {
-    "keycloak-js": "^19.0.1"
   }
 }
