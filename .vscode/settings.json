@@ -1,6 +1,7 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
   "cSpell.words": [
+    "axios",
     "browserslist",
     "chromeandroid",
     "corejs",
@@ -11,6 +12,7 @@
     "enums",
     "eslintrc",
     "iframe",
+    "iss",
     "jsx",
     "keycloak",
     "lang",

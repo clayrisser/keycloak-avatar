@@ -37,9 +37,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.9",
+    "axios": "^0.27.2",
     "core-js": "^3.24.1"
   },
   "peerDependencies": {
+    "@react-keycloak/web": "^3.4.0",
     "react": "^17.0.2"
   },
   "devDependencies": {
@@ -69,6 +71,7 @@
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "buffer": "^6.0.3",
     "core-js": "^3.24.1",
     "cspell": "^6.5.0",
     "eslint": "^8.21.0",
