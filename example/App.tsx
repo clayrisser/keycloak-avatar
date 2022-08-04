@@ -4,7 +4,7 @@
  * File Created: 31-07-2022 15:02:39
  * Author: Clay Risser
  * -----
- * Last Modified: 03-08-2022 13:17:04
+ * Last Modified: 04-08-2022 14:16:51
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -34,6 +34,9 @@ const App: FC<AppProps> = () => {
   }, [keycloakAccountAvatarClient]);
 
   const handleUploadAvatar = useCallback(() => {
+    (async () => {
+      console.log("userinfo", await keycloakAccountAvatarClient?.getUserInfo());
+    })();
     if (!keycloakAccountAvatarClient || !avatarFile) return;
     (async () => {
       const result = await keycloakAccountAvatarClient.uploadAccountAvatar(

@@ -4,7 +4,7 @@
  * File Created: 31-07-2022 15:02:39
  * Author: Clay Risser
  * -----
- * Last Modified: 03-08-2022 12:43:47
+ * Last Modified: 04-08-2022 15:29:43
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -21,10 +21,9 @@ import OIDCProvider from "./keycloakOidcProvider";
 const keycloak = new Keycloak({
   url: "http://localhost:8080",
   realm: "main",
-  origin: "http://localhost:8080",
   clientId: "example",
   oidcProvider: new OIDCProvider("http://localhost:8080", "main", {
-    tokenEndpoint: "http://localhost:3000",
+    // tokenEndpoint: "http://localhost:3000",
   }),
 } as any);
 
@@ -33,7 +32,11 @@ if (appElement) {
   const root = createRoot(appElement);
   root.render(
     <ReactKeycloakProvider
-      initOptions={{ checkLoginIframe: false }}
+      initOptions={{
+        checkLoginIframe: true,
+        checkLoginIframeInterval: 5,
+        pkceMethod: "S256",
+      }}
       authClient={keycloak}
     >
       <ThemeProvider theme={dark}>

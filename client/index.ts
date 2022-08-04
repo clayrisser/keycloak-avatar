@@ -4,7 +4,7 @@
  * File Created: 31-07-2022 14:50:24
  * Author: Clay Risser
  * -----
- * Last Modified: 03-08-2022 13:23:23
+ * Last Modified: 04-08-2022 12:29:33
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -21,6 +21,14 @@ export default class KeycloakAccountAvatarClient {
   constructor(private readonly keycloak: Keycloak, realmUrl?: string) {
     this.realmUrl = realmUrl || this.keycloak.tokenParsed?.iss;
     this.accountAvatarUrl = `${this.realmUrl}/avatar`;
+  }
+
+  async getUserInfo() {
+    return this.http.get(`${this.realmUrl}/protocol/openid-connect/userinfo`, {
+      headers: {
+        Authorization: `Bearer ${this.keycloak.token}`,
+      },
+    });
   }
 
   getAccountAvatarUrl(userId?: string) {

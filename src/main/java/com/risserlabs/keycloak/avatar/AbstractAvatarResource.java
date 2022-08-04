@@ -5,7 +5,7 @@
  * File Created: 30-07-2022 12:03:15
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 15:08:23
+ * Last Modified: 04-08-2022 14:57:56
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -19,9 +19,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.json.Json;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.services.resources.Cors;
 
 public abstract class AbstractAvatarResource {
   protected static final String AVATAR_IMAGE_PARAMETER = "image";
@@ -41,10 +43,18 @@ public abstract class AbstractAvatarResource {
   }
 
   protected Response badRequest() {
-    return badRequest("");
+    return badRequest("", null);
   }
 
   protected Response badRequest(String errorMessage) {
+    return badRequest(errorMessage, null);
+  }
+
+  protected Response badRequest(Cors cors) {
+    return badRequest("", cors);
+  }
+
+  protected Response badRequest(String errorMessage, Cors cors) {
     String body = "";
     String mediaType = MediaType.TEXT_PLAIN;
     if (errorMessage != null && errorMessage.length() > 0) {
@@ -52,17 +62,27 @@ public abstract class AbstractAvatarResource {
           .add("error", errorMessage).build().toString();
       mediaType = MediaType.APPLICATION_JSON;
     }
-    return Response
+    ResponseBuilder responseBuilder = Response
         .ok(body, mediaType)
-        .status(Response.Status.BAD_REQUEST)
-        .build();
+        .status(Response.Status.BAD_REQUEST);
+    if (cors != null) {
+      return cors.builder(responseBuilder).build();
+    }
+    return responseBuilder.build();
   }
 
   protected Response unauthorized() {
-    return Response
+    return unauthorized(null);
+  }
+
+  protected Response unauthorized(Cors cors) {
+    ResponseBuilder responseBuilder = Response
         .ok("", MediaType.TEXT_PLAIN)
-        .status(Response.Status.UNAUTHORIZED)
-        .build();
+        .status(Response.Status.UNAUTHORIZED);
+    if (cors != null) {
+      return cors.builder(responseBuilder).build();
+    }
+    return responseBuilder.build();
   }
 
   protected void uploadAvatarImage(String realmName, String userId, InputStream imageInputStream) {
