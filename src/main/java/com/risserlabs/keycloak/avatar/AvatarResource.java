@@ -4,7 +4,7 @@
  * File Created: 30-07-2022 12:02:44
  * Author: Clay Risser
  * -----
- * Last Modified: 04-08-2022 15:23:16
+ * Last Modified: 06-08-2022 15:28:57
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -13,8 +13,10 @@
 package com.risserlabs.keycloak.avatar;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -33,8 +35,10 @@ import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.spi.HttpRequest;
 import org.keycloak.common.ClientConnection;
+import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
+import org.keycloak.models.UserModel;
 import org.keycloak.services.managers.AuthenticationManager.AuthResult;
 import org.keycloak.services.resources.Cors;
 import org.keycloak.services.resources.RealmsResource;
@@ -69,6 +73,7 @@ public class AvatarResource extends AbstractAvatarResource {
       cors.allowAllOrigins();
       return unauthorized(cors);
     }
+    testFederated(authResult);
     String realmName = session.getContext().getRealm().getName();
     String userId = authResult.getSession().getUser().getId();
     StreamingOutput imageStream = downloadAvatarImage(realmName, userId);
@@ -146,5 +151,24 @@ public class AvatarResource extends AbstractAvatarResource {
       realmName = matcher.group(0).substring(8);
     }
     return realmName;
+  }
+
+  private void testFederated(AuthResult authResult) {
+    UserModel user = authResult.getUser();
+    RealmModel realm = session.getContext().getRealm();
+    if (user == null) {
+      logger.info("NO USER");
+      return;
+    }
+    ArrayList<FederatedIdentityModel> federatedIdentities = new ArrayList<FederatedIdentityModel>(
+        session.users().getFederatedIdentitiesStream(realm, user).collect(Collectors.toList()));
+    logger.info(federatedIdentities.size());
+    for (int i = 0; i < federatedIdentities.size(); i++) {
+      FederatedIdentityModel identityProvider = federatedIdentities.get(i);
+      logger.info(identityProvider.getIdentityProvider());
+      logger.info(identityProvider.getUserId());
+      logger.info(identityProvider.getUserName());
+      logger.info(identityProvider.getToken());
+    }
   }
 }
