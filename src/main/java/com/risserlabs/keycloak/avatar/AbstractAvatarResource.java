@@ -5,7 +5,7 @@
  * File Created: 30-07-2022 12:03:15
  * Author: Clay Risser
  * -----
- * Last Modified: 07-08-2022 07:39:55
+ * Last Modified: 07-08-2022 13:09:27
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -21,7 +21,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -138,6 +137,19 @@ public abstract class AbstractAvatarResource {
     return idpService.downloadAvatarImage(federatedIdentity.getToken());
   }
 
+  protected StreamingOutput downloadAndSaveFederatedIdentityAvatarImage(
+      FederatedIdentityModel federatedIdentity,
+      String realmName,
+      String userId) {
+    InputStream stream = downloadFederatedIdentityAvatarImage(federatedIdentity);
+    if (stream == null) {
+      return null;
+    }
+    byte[] imageBytes = streamToByteArray(stream);
+    uploadAvatarImage(realmName, userId, new ByteArrayInputStream(imageBytes));
+    return (output) -> AvatarUtil.copyStream(new ByteArrayInputStream(imageBytes), output);
+  }
+
   protected FederatedIdentityModel getFirstFederatedIdentity(AuthResult authResult) {
     UserModel user = authResult.getUser();
     if (user == null) {
@@ -162,6 +174,22 @@ public abstract class AbstractAvatarResource {
       realmName = matcher.group(0).substring(8);
     }
     return realmName;
+  }
+
+  protected byte[] streamToByteArray(InputStream stream) {
+    try {
+      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+      int nRead;
+      byte[] data = new byte[4];
+      while ((nRead = stream.read(data, 0, data.length)) != -1) {
+        buffer.write(data, 0, nRead);
+      }
+      buffer.flush();
+      return buffer.toByteArray();
+    } catch (IOException e) {
+      logger.error(e);
+      return null;
+    }
   }
 
   private ArrayList<FederatedIdentityModel> getFederatedIdentities(UserModel user) {

@@ -4,7 +4,7 @@
  * File Created: 07-08-2022 05:10:37
  * Author: Clay Risser
  * -----
- * Last Modified: 07-08-2022 07:39:40
+ * Last Modified: 07-08-2022 13:09:06
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -12,7 +12,6 @@
 
 package com.risserlabs.keycloak.avatar.idpServices;
 
-import com.risserlabs.keycloak.avatar.AvatarUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -24,7 +23,6 @@ import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.ws.rs.core.StreamingOutput;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.jboss.logging.Logger;
