@@ -3,7 +3,7 @@
 # File Created: 31-07-2022 14:43:01
 # Author: Clay Risser
 # -----
-# Last Modified: 31-07-2022 15:09:01
+# Last Modified: 07-08-2022 14:10:33
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2022
@@ -110,8 +110,8 @@ inc:
 	@$(NPM) version patch --git=false $(NOFAIL)
 
 .PHONY: count
-count:
-	@$(CLOC) $(shell $(GIT) ls-files)
+count: ## count lines of code in project
+	@$(CLOC) $(shell $(GIT) ls-files | $(GREP) -vE "^\.yarn")
 
 .PHONY: example +example
 example: | ~test +example ## open the example
