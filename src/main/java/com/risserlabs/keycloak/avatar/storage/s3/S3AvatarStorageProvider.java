@@ -5,7 +5,7 @@
  * File Created: 31-07-2022 05:15:04
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 15:08:23
+ * Last Modified: 07-08-2022 04:40:21
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -20,13 +20,7 @@ import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.errors.ErrorResponseException;
 import io.minio.messages.ErrorResponse;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import javax.imageio.ImageIO;
 import org.jboss.logging.Logger;
 
 public class S3AvatarStorageProvider implements AvatarStorageProvider {
@@ -69,27 +63,12 @@ public class S3AvatarStorageProvider implements AvatarStorageProvider {
             if (errorCode == null || (errorCode != ErrorCode.NO_SUCH_BUCKET && errorCode != ErrorCode.NO_SUCH_OBJECT)) {
               logger.error(ex);
             }
-            return getSinglePixelImage();
+            return null;
           }
         });
   }
 
   @Override
   public void close() {
-    // NOOP
-  }
-
-  private InputStream getSinglePixelImage() {
-    BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-    Color black = new Color(0, 0, 0);
-    image.setRGB(0, 0, black.getRGB());
-    ByteArrayOutputStream output = new ByteArrayOutputStream();
-    try {
-      ImageIO.write(image, "png", output);
-    } catch (IOException ex) {
-      logger.error(ex);
-    }
-    ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
-    return input;
   }
 }

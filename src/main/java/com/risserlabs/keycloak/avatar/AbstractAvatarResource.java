@@ -5,7 +5,7 @@
  * File Created: 30-07-2022 12:03:15
  * Author: Clay Risser
  * -----
- * Last Modified: 04-08-2022 14:57:56
+ * Last Modified: 07-08-2022 04:48:59
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -90,12 +90,14 @@ public abstract class AbstractAvatarResource {
   }
 
   protected StreamingOutput downloadAvatarImage(String realmId, String userId) {
-    return (output) -> copyStream(
-        getAvatarStorageProvider().downloadAvatarImage(realmId, userId),
-        output);
+    InputStream stream = getAvatarStorageProvider().downloadAvatarImage(realmId, userId);
+    if (stream == null) {
+      return null;
+    }
+    return (output) -> copyStream(stream, output);
   }
 
-  private void copyStream(InputStream in, OutputStream out) throws IOException {
+  protected void copyStream(InputStream in, OutputStream out) throws IOException {
     byte[] buffer = new byte[16384];
     int len;
     while ((len = in.read(buffer)) != -1) {

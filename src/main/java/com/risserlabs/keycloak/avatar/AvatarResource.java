@@ -4,7 +4,7 @@
  * File Created: 30-07-2022 12:02:44
  * Author: Clay Risser
  * -----
- * Last Modified: 06-08-2022 15:28:57
+ * Last Modified: 07-08-2022 04:55:32
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -12,11 +12,17 @@
 
 package com.risserlabs.keycloak.avatar;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -27,6 +33,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
@@ -44,9 +51,8 @@ import org.keycloak.services.resources.Cors;
 import org.keycloak.services.resources.RealmsResource;
 
 public class AvatarResource extends AbstractAvatarResource {
-  private Logger logger = Logger.getLogger(AvatarResource.class);
+  private final Logger logger = Logger.getLogger(AvatarResource.class);
   private final LiteAuthenticationService liteAuthenticationService;
-
   public static final String STATE_CHECKER_ATTRIBUTE = "state_checker";
   public static final String STATE_CHECKER_PARAMETER = "stateChecker";
 
@@ -73,12 +79,20 @@ public class AvatarResource extends AbstractAvatarResource {
       cors.allowAllOrigins();
       return unauthorized(cors);
     }
-    testFederated(authResult);
     String realmName = session.getContext().getRealm().getName();
     String userId = authResult.getSession().getUser().getId();
     StreamingOutput imageStream = downloadAvatarImage(realmName, userId);
+    Status status = Status.OK;
+    if (imageStream == null) {
+      FederatedIdentityModel federatedIdentity = getFirstFederatedIdentity(authResult);
+      if (federatedIdentity != null) {
+        logger.info(federatedIdentity.getToken());
+      }
+      imageStream = getSinglePixelImage();
+      status = Status.NOT_FOUND;
+    }
     cors.allowedOrigins(session, authResult.getClient());
-    return Response.ok(imageStream, "image/png").build();
+    return cors.builder(Response.ok(imageStream, "image/png").status(status)).build();
   }
 
   @POST
@@ -153,22 +167,31 @@ public class AvatarResource extends AbstractAvatarResource {
     return realmName;
   }
 
-  private void testFederated(AuthResult authResult) {
+  private FederatedIdentityModel getFirstFederatedIdentity(AuthResult authResult) {
     UserModel user = authResult.getUser();
     RealmModel realm = session.getContext().getRealm();
     if (user == null) {
-      logger.info("NO USER");
-      return;
+      return null;
     }
     ArrayList<FederatedIdentityModel> federatedIdentities = new ArrayList<FederatedIdentityModel>(
         session.users().getFederatedIdentitiesStream(realm, user).collect(Collectors.toList()));
-    logger.info(federatedIdentities.size());
-    for (int i = 0; i < federatedIdentities.size(); i++) {
-      FederatedIdentityModel identityProvider = federatedIdentities.get(i);
-      logger.info(identityProvider.getIdentityProvider());
-      logger.info(identityProvider.getUserId());
-      logger.info(identityProvider.getUserName());
-      logger.info(identityProvider.getToken());
+    if (federatedIdentities.size() > 0) {
+      return federatedIdentities.get(0);
     }
+    return null;
+  }
+
+  private StreamingOutput getSinglePixelImage() {
+    BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+    Color black = new Color(0, 0, 0);
+    image.setRGB(0, 0, black.getRGB());
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    try {
+      ImageIO.write(image, "png", outputStream);
+    } catch (IOException ex) {
+      logger.error(ex);
+    }
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+    return (output) -> copyStream(inputStream, output);
   }
 }
