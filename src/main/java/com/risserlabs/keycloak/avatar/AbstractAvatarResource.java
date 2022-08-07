@@ -5,7 +5,7 @@
  * File Created: 30-07-2022 12:03:15
  * Author: Clay Risser
  * -----
- * Last Modified: 07-08-2022 07:34:36
+ * Last Modified: 07-08-2022 07:39:55
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -130,7 +130,7 @@ public abstract class AbstractAvatarResource {
     return (output) -> AvatarUtil.copyStream(inputStream, output);
   }
 
-  protected StreamingOutput downloadFederatedIdentityAvatarImage(FederatedIdentityModel federatedIdentity) {
+  protected InputStream downloadFederatedIdentityAvatarImage(FederatedIdentityModel federatedIdentity) {
     IdpService idpService = IdpService.getIdpService(federatedIdentity.getIdentityProvider());
     if (idpService == null) {
       return null;

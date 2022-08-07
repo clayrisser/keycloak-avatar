@@ -4,7 +4,7 @@
  * File Created: 07-08-2022 05:10:37
  * Author: Clay Risser
  * -----
- * Last Modified: 07-08-2022 07:31:24
+ * Last Modified: 07-08-2022 07:39:40
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -42,7 +42,7 @@ public abstract class IdpService {
     return IdpService.getIdpServices().get(idpServiceName);
   }
 
-  public StreamingOutput downloadAvatarImage(String idpToken) {
+  public InputStream downloadAvatarImage(String idpToken) {
     String bearerToken = getBearerToken(idpToken);
     String avatarUrl = getAvatarUrl(idpToken);
     if (avatarUrl == null || avatarUrl == "") {
@@ -54,8 +54,7 @@ public abstract class IdpService {
         .addHeader("Authorization", "Bearer " + bearerToken)
         .build();
     try {
-      InputStream stream = client.newCall(request).execute().body().byteStream();
-      return (output) -> AvatarUtil.copyStream(stream, output);
+      return client.newCall(request).execute().body().byteStream();
     } catch (IOException e) {
       logger.error(e);
       return null;

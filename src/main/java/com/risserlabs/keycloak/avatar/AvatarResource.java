@@ -4,7 +4,7 @@
  * File Created: 30-07-2022 12:02:44
  * Author: Clay Risser
  * -----
- * Last Modified: 07-08-2022 07:35:07
+ * Last Modified: 07-08-2022 07:44:00
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -75,8 +75,14 @@ public class AvatarResource extends AbstractAvatarResource {
     if (imageStream == null) {
       FederatedIdentityModel federatedIdentity = getFirstFederatedIdentity(authResult);
       if (federatedIdentity != null) {
-        imageStream = downloadFederatedIdentityAvatarImage(federatedIdentity);
-      } else {
+        InputStream inputStream = downloadFederatedIdentityAvatarImage(federatedIdentity);
+        if (inputStream != null) {
+          // TODO: fix this
+          uploadAvatarImage(realmName, userId, inputStream);
+          imageStream = (output) -> AvatarUtil.copyStream(inputStream, output);
+        }
+      }
+      if (imageStream == null) {
         imageStream = getSinglePixelImage();
         status = Response.Status.NOT_FOUND;
       }
