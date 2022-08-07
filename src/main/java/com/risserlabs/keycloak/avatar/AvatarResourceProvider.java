@@ -5,7 +5,7 @@
  * File Created: 30-07-2022 11:59:49
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 15:08:23
+ * Last Modified: 07-08-2022 07:33:34
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -31,6 +31,5 @@ public class AvatarResourceProvider implements RealmResourceProvider {
 
   @Override
   public void close() {
-    // NOOP
   }
 }

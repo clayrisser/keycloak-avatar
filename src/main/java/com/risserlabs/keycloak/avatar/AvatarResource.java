@@ -4,7 +4,7 @@
  * File Created: 30-07-2022 12:02:44
  * Author: Clay Risser
  * -----
- * Last Modified: 07-08-2022 04:55:32
+ * Last Modified: 07-08-2022 07:35:07
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -12,17 +12,7 @@
 
 package com.risserlabs.keycloak.avatar;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -33,7 +23,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
@@ -45,13 +34,12 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserModel;
 import org.keycloak.services.managers.AuthenticationManager.AuthResult;
 import org.keycloak.services.resources.Cors;
 import org.keycloak.services.resources.RealmsResource;
 
 public class AvatarResource extends AbstractAvatarResource {
-  private final Logger logger = Logger.getLogger(AvatarResource.class);
+  private final Logger logger = Logger.getLogger(AbstractAvatarResource.class);
   private final LiteAuthenticationService liteAuthenticationService;
   public static final String STATE_CHECKER_ATTRIBUTE = "state_checker";
   public static final String STATE_CHECKER_PARAMETER = "stateChecker";
@@ -77,19 +65,21 @@ public class AvatarResource extends AbstractAvatarResource {
     AuthResult authResult = liteAuthenticationService.resolveAuthentication(headers, clientConnection);
     if (authResult == null) {
       cors.allowAllOrigins();
-      return unauthorized(cors);
+      return cors.builder(Response.ok(getSinglePixelImage(), "image/png")
+          .status(Response.Status.UNAUTHORIZED)).build();
     }
     String realmName = session.getContext().getRealm().getName();
     String userId = authResult.getSession().getUser().getId();
     StreamingOutput imageStream = downloadAvatarImage(realmName, userId);
-    Status status = Status.OK;
+    Response.Status status = Response.Status.OK;
     if (imageStream == null) {
       FederatedIdentityModel federatedIdentity = getFirstFederatedIdentity(authResult);
       if (federatedIdentity != null) {
-        logger.info(federatedIdentity.getToken());
+        imageStream = downloadFederatedIdentityAvatarImage(federatedIdentity);
+      } else {
+        imageStream = getSinglePixelImage();
+        status = Response.Status.NOT_FOUND;
       }
-      imageStream = getSinglePixelImage();
-      status = Status.NOT_FOUND;
     }
     cors.allowedOrigins(session, authResult.getClient());
     return cors.builder(Response.ok(imageStream, "image/png").status(status)).build();
@@ -149,49 +139,12 @@ public class AvatarResource extends AbstractAvatarResource {
         .exposedHeaders(Cors.ACCESS_CONTROL_ALLOW_METHODS);
     String realmName = getRealmName(uriInfo);
     StreamingOutput imageStream = downloadAvatarImage(realmName, userId);
+    Response.Status status = Response.Status.OK;
+    if (imageStream == null) {
+      imageStream = getSinglePixelImage();
+      status = Response.Status.NOT_FOUND;
+    }
     cors.allowAllOrigins();
-    return cors.builder(Response.ok(imageStream, "image/png")).build();
-  }
-
-  private String getRealmName(UriInfo uriInfo) {
-    String realmName = session.getContext().getRealm().getName();
-    if (realmName != null) {
-      return realmName;
-    }
-    realmName = "master";
-    Pattern pattern = Pattern.compile("/realms/[^/]+", Pattern.CASE_INSENSITIVE);
-    Matcher matcher = pattern.matcher(uriInfo.getPath());
-    if (matcher.find()) {
-      realmName = matcher.group(0).substring(8);
-    }
-    return realmName;
-  }
-
-  private FederatedIdentityModel getFirstFederatedIdentity(AuthResult authResult) {
-    UserModel user = authResult.getUser();
-    RealmModel realm = session.getContext().getRealm();
-    if (user == null) {
-      return null;
-    }
-    ArrayList<FederatedIdentityModel> federatedIdentities = new ArrayList<FederatedIdentityModel>(
-        session.users().getFederatedIdentitiesStream(realm, user).collect(Collectors.toList()));
-    if (federatedIdentities.size() > 0) {
-      return federatedIdentities.get(0);
-    }
-    return null;
-  }
-
-  private StreamingOutput getSinglePixelImage() {
-    BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-    Color black = new Color(0, 0, 0);
-    image.setRGB(0, 0, black.getRGB());
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    try {
-      ImageIO.write(image, "png", outputStream);
-    } catch (IOException ex) {
-      logger.error(ex);
-    }
-    ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-    return (output) -> copyStream(inputStream, output);
+    return cors.builder(Response.ok(imageStream, "image/png").status(status)).build();
   }
 }
