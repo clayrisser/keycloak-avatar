@@ -4,7 +4,7 @@
  * File Created: 31-07-2022 14:50:24
  * Author: Clay Risser
  * -----
- * Last Modified: 04-08-2022 12:29:33
+ * Last Modified: 07-08-2022 14:05:30
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -31,11 +31,13 @@ export default class KeycloakAccountAvatarClient {
     });
   }
 
-  getAccountAvatarUrl(userId?: string) {
-    if (!userId) userId = this.keycloak.subject;
-    if (!userId) return;
-    if (!this.accountAvatarUrl) return;
-    return `${this.getAccountAvatarUrl}/${userId}`;
+  getAccountAvatarUrl(userId?: string, nonce?: number | string): string | null {
+    if ((!userId && !this.keycloak.subject) || !this.accountAvatarUrl) {
+      return null;
+    }
+    return `${this.accountAvatarUrl}${userId ? `/${userId}` : ""}${
+      typeof nonce !== "undefined" ? `?${nonce}` : ""
+    }`;
   }
 
   async uploadAccountAvatar(image: Blob) {

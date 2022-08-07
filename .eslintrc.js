@@ -4,7 +4,7 @@
  * File Created: 31-07-2022 14:36:36
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 15:17:14
+ * Last Modified: 07-08-2022 13:57:58
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -54,8 +54,8 @@ module.exports = {
     "import/no-cycle": "off",
     "import/prefer-default-export": "off",
     "max-classes-per-file": "off",
-    "max-lines": ["error", 500],
-    "max-lines-per-function": ["warn", 99],
+    "max-lines": ["error", 999],
+    "max-lines-per-function": ["warn", 999],
     "no-await-in-loop": "off",
     "no-empty-function": ["warn", { allow: ["constructors"] }],
     "no-extra-boolean-cast": "off",
