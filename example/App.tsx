@@ -4,10 +4,10 @@
  * File Created: 31-07-2022 15:02:39
  * Author: Clay Risser
  * -----
- * Last Modified: 16-08-2022 11:56:56
+ * Last Modified: 16-08-2022 12:14:54
  * Modified By: Clay Risser
  * -----
- * Risser Labs LLC (c) Copyright 2022
+ * Pro Manager LLC (c) Copyright 2022
  */
 
 import React, { FC, useCallback, useState, useEffect } from "react";

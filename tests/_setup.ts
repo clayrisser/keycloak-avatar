@@ -4,10 +4,10 @@
  * File Created: 06-12-2021 08:30:36
  * Author: Clay Risser <email@clayrisser.com>
  * -----
- * Last Modified: 16-08-2022 11:56:56
+ * Last Modified: 16-08-2022 12:14:54
  * Modified By: Clay Risser
  * -----
- * Risser Labs LLC (c) Copyright 2021 - 2022
+ * Pro Manager LLC (c) Copyright 2021 - 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

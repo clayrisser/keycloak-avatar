@@ -3,7 +3,7 @@
   "description": "client to interact with keycloak account avatar",
   "version": "0.0.1",
   "main": "lib/index.js",
-  "author": "Risser Labs LLC <risserlabs@gmail.com>",
+  "author": "Pro Manager LLC <risserlabs@gmail.com>",
   "contributors": [
     "Clay Risser <clayrisser@gmail.com>"
   ],

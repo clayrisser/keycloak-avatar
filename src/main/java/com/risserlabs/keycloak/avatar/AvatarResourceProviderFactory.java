@@ -4,10 +4,10 @@
  * File Created: 30-07-2022 11:40:29
  * Author: Clay Risser
  * -----
- * Last Modified: 16-08-2022 11:56:54
+ * Last Modified: 16-08-2022 12:14:54
  * Modified By: Clay Risser
  * -----
- * Risser Labs LLC (c) Copyright 2022
+ * Pro Manager LLC (c) Copyright 2022
  */
 
 package com.risserlabs.keycloak.avatar;
