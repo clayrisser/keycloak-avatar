@@ -1,11 +1,11 @@
 /**
  * File: /src/main/java/com/risserlabs/keycloak/avatar/storage/s3/S3AvatarStorageProviderFactory.java
  * /src/main/java/com/risserlabs/keycloak/avatar/storage/s3/S3AvatarStorageProviderFactory.java
- * Project: @risserlabs/keycloak-account-avatar-client
+ * Project: @risserlabs/keycloak-avatar-client
  * File Created: 31-07-2022 05:06:57
  * Author: Clay Risser
  * -----
- * Last Modified: 31-07-2022 15:08:23
+ * Last Modified: 16-08-2022 11:56:54
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
@@ -23,7 +23,7 @@ public class S3AvatarStorageProviderFactory implements AvatarStorageProviderFact
   private static final String DEFAULT_ENDPOINT = "http://localhost:9000";
   private static final String DEFAULT_ACCESS_KEY = "";
   private static final String DEFAULT_SECRET_KEY = "";
-  private static final String DEFAULT_BUCKET_NAME = "account-avatar";
+  private static final String DEFAULT_BUCKET_NAME = "avatar";
   private static final String DEFAULT_REGION = "us-east-1";
   private static final String DEFAULT_PREFIX = "";
   private S3Config s3Config;

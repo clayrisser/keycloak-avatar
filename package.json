@@ -1,5 +1,5 @@
 {
-  "name": "@risserlabs/keycloak-account-avatar-client",
+  "name": "@risserlabs/keycloak-avatar-client",
   "description": "client to interact with keycloak account avatar",
   "version": "0.0.1",
   "main": "lib/index.js",
@@ -12,7 +12,7 @@
     "keycloak",
     "avatar"
   ],
-  "homepage": "https://gitlab.com/risserlabs/community/keycloak-account-avatar",
+  "homepage": "https://gitlab.com/risserlabs/community/keycloak-avatar",
   "license": "Apache-2.0",
   "files": [
     "es",
@@ -21,7 +21,7 @@
   "module": "es/index.js",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/risserlabs/community/keycloak-account-avatar"
+    "url": "https://gitlab.com/risserlabs/community/keycloak-avatar"
   },
   "scripts": {
     "build": "make -s build",

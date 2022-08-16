@@ -1,10 +1,10 @@
 /**
  * File: /tests/_setup.ts
- * Project: @risserlabs/keycloak-account-avatar-client
+ * Project: @risserlabs/keycloak-avatar-client
  * File Created: 06-12-2021 08:30:36
  * Author: Clay Risser <email@clayrisser.com>
  * -----
- * Last Modified: 31-07-2022 15:08:23
+ * Last Modified: 16-08-2022 11:56:56
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2021 - 2022

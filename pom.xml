@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.risserlabs</groupId>
-  <artifactId>keycloak-account-avatar</artifactId>
+  <artifactId>keycloak-avatar</artifactId>
   <packaging>jar</packaging>
   <version>0.0.1</version>
 
@@ -13,12 +13,12 @@
   </properties>
 
   <scm>
-    <url>https://gitlab.com/risserlabs/internal/keycloak-account-avatar</url>
-    <connection>scm:git:git@gitlab.com:risserlabs/internal/keycloak-account-avatar.git</connection>
+    <url>https://gitlab.com/risserlabs/internal/keycloak-avatar</url>
+    <connection>scm:git:git@gitlab.com:risserlabs/internal/keycloak-avatar.git</connection>
   </scm>
 
   <build>
-    <finalName>keycloak-account-avatar</finalName>
+    <finalName>keycloak-avatar</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

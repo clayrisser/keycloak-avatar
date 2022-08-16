@@ -1,7 +1,7 @@
 {
   "themes": [
     {
-      "name": "account-avatar",
+      "name": "avatar",
       "types": ["account", "admin"]
     }
   ]

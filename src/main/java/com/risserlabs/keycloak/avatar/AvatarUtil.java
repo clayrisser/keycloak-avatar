@@ -1,10 +1,10 @@
 /**
  * File: /src/main/java/com/risserlabs/keycloak/avatar/AvatarUtil.java
- * Project: @risserlabs/keycloak-account-avatar-client
+ * Project: @risserlabs/keycloak-avatar-client
  * File Created: 07-08-2022 07:28:11
  * Author: Clay Risser
  * -----
- * Last Modified: 07-08-2022 07:30:22
+ * Last Modified: 16-08-2022 11:56:54
  * Modified By: Clay Risser
  * -----
  * Risser Labs LLC (c) Copyright 2022
