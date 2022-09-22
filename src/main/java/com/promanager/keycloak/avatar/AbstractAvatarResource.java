@@ -1,20 +1,18 @@
 /**
- * File: /src/main/java/com/risserlabs/keycloak/avatar/AbstractAvatarResource.java
- * /src/main/java/com/risserlabs/keycloak/avatar/AbstractAvatarResource.java
- * Project: @risserlabs/keycloak-avatar-client
+ * File: /src/main/java/com/promanager/keycloak/avatar/AbstractAvatarResource.java
+ * /src/main/java/com/promanager/keycloak/avatar/AbstractAvatarResource.java
+ * Project: @promanager/keycloak-avatar-client
  * File Created: 30-07-2022 12:03:15
  * Author: Clay Risser
  * -----
- * Last Modified: 16-08-2022 12:14:54
+ * Last Modified: 22-09-2022 11:00:44
  * Modified By: Clay Risser
  * -----
  * Pro Manager LLC (c) Copyright 2022
  */
 
-package com.risserlabs.keycloak.avatar;
+package com.promanager.keycloak.avatar;
 
-import com.risserlabs.keycloak.avatar.idpServices.IdpService;
-import com.risserlabs.keycloak.avatar.storage.AvatarStorageProvider;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -42,6 +40,9 @@ import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.managers.AuthenticationManager.AuthResult;
 import org.keycloak.services.resources.Cors;
+
+import com.promanager.keycloak.avatar.idpServices.IdpService;
+import com.promanager.keycloak.avatar.storage.AvatarStorageProvider;
 
 public abstract class AbstractAvatarResource {
   private final Logger logger = Logger.getLogger(AbstractAvatarResource.class);

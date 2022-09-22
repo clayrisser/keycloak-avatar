@@ -1,10 +1,10 @@
 /**
  * File: /example/keycloakOidcProvider.ts
- * Project: @risserlabs/keycloak-avatar-client
+ * Project: @promanager/keycloak-avatar-client
  * File Created: 03-08-2022 10:50:56
  * Author: Clay Risser
  * -----
- * Last Modified: 16-08-2022 12:14:54
+ * Last Modified: 22-09-2022 10:57:18
  * Modified By: Clay Risser
  * -----
  * Pro Manager LLC (c) Copyright 2022

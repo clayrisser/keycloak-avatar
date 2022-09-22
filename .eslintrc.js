@@ -1,10 +1,10 @@
 /**
  * File: /.eslintrc.js
- * Project: @risserlabs/keycloak-avatar-client
+ * Project: @promanager/keycloak-avatar-client
  * File Created: 31-07-2022 14:36:36
  * Author: Clay Risser
  * -----
- * Last Modified: 16-08-2022 12:14:54
+ * Last Modified: 22-09-2022 10:57:18
  * Modified By: Clay Risser
  * -----
  * Pro Manager LLC (c) Copyright 2022

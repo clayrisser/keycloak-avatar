@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.risserlabs</groupId>
+  <groupId>com.promanager</groupId>
   <artifactId>keycloak-avatar</artifactId>
   <packaging>jar</packaging>
   <version>0.0.1</version>
@@ -8,13 +8,13 @@
   <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <main.java.package>com.risserlabs</main.java.package>
+    <main.java.package>com.promanager</main.java.package>
     <keycloak.version>19.0.0</keycloak.version>
   </properties>
 
   <scm>
-    <url>https://gitlab.com/risserlabs/internal/keycloak-avatar</url>
-    <connection>scm:git:git@gitlab.com:risserlabs/internal/keycloak-avatar.git</connection>
+    <url>https://gitlab.com/promanager/keycloak-avatar</url>
+    <connection>scm:git:git@gitlab.com:promanager/keycloak-avatar.git</connection>
   </scm>
 
   <build>

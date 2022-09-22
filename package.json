@@ -1,9 +1,9 @@
 {
-  "name": "@risserlabs/keycloak-avatar-client",
+  "name": "@promanager/keycloak-avatar-client",
   "description": "client to interact with keycloak account avatar",
   "version": "0.0.1",
   "main": "lib/index.js",
-  "author": "Pro Manager LLC <risserlabs@gmail.com>",
+  "author": "Pro Manager LLC",
   "contributors": [
     "Clay Risser <clayrisser@gmail.com>"
   ],
@@ -12,7 +12,7 @@
     "keycloak",
     "avatar"
   ],
-  "homepage": "https://gitlab.com/risserlabs/community/keycloak-avatar",
+  "homepage": "https://gitlab.com/promanager/keycloak-avatar",
   "license": "Apache-2.0",
   "files": [
     "es",
@@ -21,7 +21,7 @@
   "module": "es/index.js",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/risserlabs/community/keycloak-avatar"
+    "url": "https://gitlab.com/promanager/keycloak-avatar"
   },
   "scripts": {
     "build": "make -s build",
@@ -118,7 +118,7 @@
     "indent": 4
   },
   "publishConfig": {
-    "@risserlabs:registry": "https://gitlab.com/api/v4/projects/38220011/packages/npm/",
+    "@promanager:registry": "https://gitlab.com/api/v4/projects/38220011/packages/npm/",
     "registry": "https://gitlab.com/api/v4/projects/38220011/packages/npm/"
   },
   "resolutions": {

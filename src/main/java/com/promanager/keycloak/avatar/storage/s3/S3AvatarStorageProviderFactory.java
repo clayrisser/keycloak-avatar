@@ -1,23 +1,24 @@
 /**
- * File: /src/main/java/com/risserlabs/keycloak/avatar/storage/s3/S3AvatarStorageProviderFactory.java
- * /src/main/java/com/risserlabs/keycloak/avatar/storage/s3/S3AvatarStorageProviderFactory.java
- * Project: @risserlabs/keycloak-avatar-client
+ * File: /src/main/java/com/promanager/keycloak/avatar/storage/s3/S3AvatarStorageProviderFactory.java
+ * /src/main/java/com/promanager/keycloak/avatar/storage/s3/S3AvatarStorageProviderFactory.java
+ * Project: @promanager/keycloak-avatar-client
  * File Created: 31-07-2022 05:06:57
  * Author: Clay Risser
  * -----
- * Last Modified: 16-08-2022 12:14:54
+ * Last Modified: 22-09-2022 11:00:55
  * Modified By: Clay Risser
  * -----
  * Pro Manager LLC (c) Copyright 2022
  */
 
-package com.risserlabs.keycloak.avatar.storage.s3;
+package com.promanager.keycloak.avatar.storage.s3;
 
-import com.risserlabs.keycloak.avatar.storage.AvatarStorageProvider;
-import com.risserlabs.keycloak.avatar.storage.AvatarStorageProviderFactory;
 import org.keycloak.Config;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
+
+import com.promanager.keycloak.avatar.storage.AvatarStorageProvider;
+import com.promanager.keycloak.avatar.storage.AvatarStorageProviderFactory;
 
 public class S3AvatarStorageProviderFactory implements AvatarStorageProviderFactory {
   private static final String DEFAULT_ENDPOINT = "http://localhost:9000";

@@ -1,16 +1,16 @@
 /**
- * File: /src/main/java/com/risserlabs/keycloak/avatar/LiteAuthenticationService.java
- * Project: @risserlabs/keycloak-avatar-client
+ * File: /src/main/java/com/promanager/keycloak/avatar/LiteAuthenticationService.java
+ * Project: @promanager/keycloak-avatar-client
  * File Created: 04-08-2022 13:44:07
  * Author: Clay Risser
  * -----
- * Last Modified: 16-08-2022 12:14:54
+ * Last Modified: 22-09-2022 11:00:53
  * Modified By: Clay Risser
  * -----
  * Pro Manager LLC (c) Copyright 2022
  */
 
-package com.risserlabs.keycloak.avatar;
+package com.promanager.keycloak.avatar;
 
 import javax.ws.rs.core.HttpHeaders;
 

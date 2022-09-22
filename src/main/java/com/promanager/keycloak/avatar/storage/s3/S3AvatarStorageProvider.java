@@ -1,19 +1,18 @@
 /**
- * File: /src/main/java/com/risserlabs/keycloak/avatar/storage/s3/S3AvatarStorageProvider.java
- * /src/main/java/com/risserlabs/keycloak/avatar/storage/s3/S3AvatarStorageProvider.java
- * Project: @risserlabs/keycloak-avatar-client
+ * File: /src/main/java/com/promanager/keycloak/avatar/storage/s3/S3AvatarStorageProvider.java
+ * /src/main/java/com/promanager/keycloak/avatar/storage/s3/S3AvatarStorageProvider.java
+ * Project: @promanager/keycloak-avatar-client
  * File Created: 31-07-2022 05:15:04
  * Author: Clay Risser
  * -----
- * Last Modified: 16-08-2022 12:14:54
+ * Last Modified: 22-09-2022 11:00:55
  * Modified By: Clay Risser
  * -----
  * Pro Manager LLC (c) Copyright 2022
  */
 
-package com.risserlabs.keycloak.avatar.storage.s3;
+package com.promanager.keycloak.avatar.storage.s3;
 
-import com.risserlabs.keycloak.avatar.storage.AvatarStorageProvider;
 import io.minio.ErrorCode;
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
@@ -22,6 +21,8 @@ import io.minio.errors.ErrorResponseException;
 import io.minio.messages.ErrorResponse;
 import java.io.InputStream;
 import org.jboss.logging.Logger;
+
+import com.promanager.keycloak.avatar.storage.AvatarStorageProvider;
 
 public class S3AvatarStorageProvider implements AvatarStorageProvider {
   private Logger logger = Logger.getLogger(S3AvatarStorageProvider.class);
